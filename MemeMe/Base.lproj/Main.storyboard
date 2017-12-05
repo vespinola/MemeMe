@@ -81,15 +81,15 @@
                             <constraint firstItem="vG3-Mv-Tcr" firstAttribute="bottom" secondItem="7OT-qi-Sil" secondAttribute="bottom" id="6UI-iW-PmG"/>
                             <constraint firstItem="oep-uO-qw2" firstAttribute="top" secondItem="vG3-Mv-Tcr" secondAttribute="top" constant="69" id="J3A-23-KZR"/>
                             <constraint firstItem="vG3-Mv-Tcr" firstAttribute="trailing" secondItem="1rO-dd-ese" secondAttribute="trailing" id="JPO-f1-bdx"/>
-                            <constraint firstItem="vG3-Mv-Tcr" firstAttribute="top" secondItem="FnE-Qi-7vn" secondAttribute="top" id="KWg-O3-DvE"/>
+                            <constraint firstAttribute="top" secondItem="FnE-Qi-7vn" secondAttribute="top" constant="-20" id="KWg-O3-DvE"/>
                             <constraint firstItem="vG3-Mv-Tcr" firstAttribute="trailing" secondItem="7OT-qi-Sil" secondAttribute="trailing" id="KxO-Vj-TCz"/>
-                            <constraint firstItem="7OT-qi-Sil" firstAttribute="top" secondItem="vG3-Mv-Tcr" secondAttribute="top" id="LAh-Re-nj3"/>
                             <constraint firstItem="vG3-Mv-Tcr" firstAttribute="bottom" secondItem="YcJ-95-Kb5" secondAttribute="bottom" constant="64" id="VEf-be-nxk"/>
                             <constraint firstItem="vG3-Mv-Tcr" firstAttribute="bottom" secondItem="1rO-dd-ese" secondAttribute="bottom" id="W08-TR-Hvz"/>
                             <constraint firstItem="FnE-Qi-7vn" firstAttribute="leading" secondItem="vG3-Mv-Tcr" secondAttribute="leading" id="bco-lx-xiq"/>
                             <constraint firstItem="YcJ-95-Kb5" firstAttribute="leading" secondItem="oep-uO-qw2" secondAttribute="leading" id="fF6-0B-Xmf"/>
                             <constraint firstItem="7OT-qi-Sil" firstAttribute="leading" secondItem="vG3-Mv-Tcr" secondAttribute="leading" id="i43-tm-glf"/>
                             <constraint firstItem="YcJ-95-Kb5" firstAttribute="trailing" secondItem="oep-uO-qw2" secondAttribute="trailing" id="iFF-sj-1ny"/>
+                            <constraint firstItem="7OT-qi-Sil" firstAttribute="top" secondItem="vG3-Mv-Tcr" secondAttribute="top" id="mCb-rL-MBa"/>
                             <constraint firstItem="oep-uO-qw2" firstAttribute="leading" secondItem="vG3-Mv-Tcr" secondAttribute="leading" constant="20" id="sKa-b8-3IP"/>
                             <constraint firstItem="1rO-dd-ese" firstAttribute="leading" secondItem="vG3-Mv-Tcr" secondAttribute="leading" id="wOE-GX-bft"/>
                         </constraints>
@@ -98,10 +98,11 @@
                     <navigationItem key="navigationItem" id="jUr-KE-8XO"/>
                     <connections>
                         <outlet property="bottomTextfield" destination="YcJ-95-Kb5" id="x8G-ls-PGf"/>
+                        <outlet property="bottomToolbar" destination="1rO-dd-ese" id="47j-gw-Ype"/>
                         <outlet property="camera" destination="tjr-oP-YTL" id="B4U-zt-xcf"/>
                         <outlet property="imagePickerView" destination="7OT-qi-Sil" id="QvL-YO-LRa"/>
-                        <outlet property="toolbar" destination="1rO-dd-ese" id="47j-gw-Ype"/>
                         <outlet property="topTextfield" destination="oep-uO-qw2" id="DAJ-4z-MR0"/>
+                        <outlet property="topToolbar" destination="FnE-Qi-7vn" id="tc0-Ug-FHL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tfu-Rh-NOX" userLabel="First Responder" sceneMemberID="firstResponder"/>

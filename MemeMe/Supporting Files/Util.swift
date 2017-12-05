@@ -13,4 +13,10 @@ class Util {
         let controller = UIActivityViewController(activityItems: items, applicationActivities: nil)
         viewController.present(controller, animated: true, completion: onCompletion)
     }
+    
+    class func runInMainQueue(_ callback: @escaping () -> Void) {
+        DispatchQueue.main.async {
+            callback()
+        }
+    }
 }

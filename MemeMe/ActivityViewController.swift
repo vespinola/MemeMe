@@ -13,7 +13,10 @@ class ActivityViewController: UIViewController {
     @IBOutlet weak var camera: UIBarButtonItem!
     @IBOutlet weak var topTextfield: UITextField!
     @IBOutlet weak var bottomTextfield: UITextField!
-    @IBOutlet weak var toolbar: UIToolbar!
+    @IBOutlet weak var topToolbar: UIToolbar!
+    @IBOutlet weak var bottomToolbar: UIToolbar!
+    
+    var bottomTextFieldIsFocused = false
     
     let imagePicker = UIImagePickerController()
     
@@ -38,8 +41,12 @@ class ActivityViewController: UIViewController {
             $0?.delegate = self
         }
         
-        topTextfield.text = "TOP"
-        bottomTextfield.text = "BOTTOM"
+        [topToolbar, bottomToolbar].forEach {
+            $0?.alpha = 0.8
+        }
+        
+        topTextfield.text = Constants.meme.topText
+        bottomTextfield.text = Constants.meme.bottomText
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,13 +57,11 @@ class ActivityViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
         unsubscribeFromKeyboardNotification()
     }
     
     @IBAction func pickAnImageFromCamera(_ sender: Any) {
         showImagePicker(for: .camera)
-
     }
     
     @IBAction func pickAnImageFromLibray(_ sender: Any) {
@@ -70,7 +75,16 @@ class ActivityViewController: UIViewController {
     }
     
     @IBAction func cancelButtonOnTap(_ sender: Any) {
-        
+        Util.runInMainQueue {
+            
+            [self.topTextfield, self.bottomTextfield].forEach {
+                $0?.resignFirstResponder()
+            }
+            
+            self.imagePickerView.image = nil
+            self.topTextfield.text = Constants.meme.topText
+            self.bottomTextfield.text = Constants.meme.bottomText
+        }
     }
 }
 
@@ -96,16 +110,18 @@ extension ActivityViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if let text = textField.text?.lowercased(), text == "top" || text == "bottom"  {
+        if let text = textField.text?.lowercased(), text == Constants.meme.topText.lowercased() || text == Constants.meme.bottomText.lowercased()  {
             textField.text = ""
         }
+        
+        bottomTextFieldIsFocused = bottomTextfield == textField
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if let text = textField.text?.lowercased(), text == "", textField == topTextfield   {
-            textField.text = "TOP"
-        } else if let text = textField.text?.lowercased(), text == "", textField == bottomTextfield   {
-            textField.text = "BOTTOM"
+        if let text = textField.text?.lowercased(), textField == topTextfield, text.isEmpty   {
+            textField.text =  Constants.meme.topText
+        } else if let text = textField.text?.lowercased(), textField == bottomTextfield, text.isEmpty   {
+            textField.text =  Constants.meme.bottomText
         }
     }
 }
@@ -125,10 +141,12 @@ extension ActivityViewController {
     
     
     @objc func keyboardWillShow(notification: Notification) {
+        guard bottomTextFieldIsFocused else { return }
         self.view.frame.origin.y -= getKeyboardHeight(notification: notification)
     }
     
     @objc func keyboardWillHide(notification: Notification) {
+        guard bottomTextFieldIsFocused else { return }
         self.view.frame.origin.y = 0
     }
     
@@ -145,8 +163,7 @@ extension ActivityViewController {
     
     //MARK: Meme Generator
     func generateMemedImage() -> UIImage {
-        // TODO: Hide toolbar and navbar
-        toolbar.isHidden = true
+        bottomToolbar.isHidden = true
         
         // Render view to an image
         UIGraphicsBeginImageContext(self.view.frame.size)
@@ -154,15 +171,14 @@ extension ActivityViewController {
         let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
-        // TODO: Show toolbar and navbar
-        toolbar.isHidden = false
+        bottomToolbar.isHidden = false
         
         return memedImage
     }
     
     //MARK: Meme Saver
     func save(){
-//        let memedImage = generateMemedImage()
+        let memedImage = generateMemedImage()
 //        let meme = Meme(top: topTextfield.text!, bottom: bottomTextfield.text!, originalImage: imagePickerView.image!, memedImage: memedImage)
     }
     
