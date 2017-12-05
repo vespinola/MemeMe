@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,16 +22,13 @@
                                 <rect key="frame" x="0.0" y="20" width="320" height="504"/>
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="aa" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oep-uO-qw2">
-                                <rect key="frame" x="20" y="40" width="280" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="1Q1-2m-SYv"/>
-                                </constraints>
+                                <rect key="frame" x="20" y="40" width="280" height="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="aaa" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YcJ-95-Kb5">
-                                <rect key="frame" x="20" y="474" width="280" height="30"/>
+                                <rect key="frame" x="20" y="487" width="280" height="17"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -57,7 +55,6 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
                             <constraint firstItem="vG3-Mv-Tcr" firstAttribute="trailing" secondItem="oep-uO-qw2" secondAttribute="trailing" constant="20" id="3fI-7U-WHP"/>
-                            <constraint firstItem="oep-uO-qw2" firstAttribute="height" secondItem="YcJ-95-Kb5" secondAttribute="height" id="Am7-mF-rmV"/>
                             <constraint firstItem="1rO-dd-ese" firstAttribute="top" secondItem="YcJ-95-Kb5" secondAttribute="bottom" constant="20" id="EiP-7r-hYu"/>
                             <constraint firstItem="1rO-dd-ese" firstAttribute="top" secondItem="7OT-qi-Sil" secondAttribute="bottom" id="GYD-I5-W6C"/>
                             <constraint firstItem="vG3-Mv-Tcr" firstAttribute="trailing" secondItem="1rO-dd-ese" secondAttribute="trailing" id="JPO-f1-bdx"/>

@@ -24,10 +24,10 @@ class ViewController: UIViewController {
         imagePickerView.backgroundColor = UIColor.black
         
         let memeTextAttributes: [String : Any] = [
-            NSAttributedStringKey.strokeColor.rawValue: UIColor.white/* TODO: fill in appropriate UIColor */,
+            NSAttributedStringKey.strokeColor.rawValue: UIColor.black/* TODO: fill in appropriate UIColor */,
             NSAttributedStringKey.foregroundColor.rawValue: UIColor.white/* TODO: fill in appropriate UIColor */,
             NSAttributedStringKey.font.rawValue: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-            NSAttributedStringKey.strokeWidth.rawValue: 2/* TODO: fill in appropriate Float */
+            NSAttributedStringKey.strokeWidth.rawValue: -3/* TODO: fill in appropriate Float */
         ]
         
         [topTextfield, bottomTextfield].forEach {
@@ -43,8 +43,15 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         camera.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
-        
+        subscribeToKeyboardNotifications()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        unsubscribeFromKeyboardNotification()
+    }
+    
     @IBAction func pickAnImageFromCamera(_ sender: Any) {
         showImagePicker(for: .camera)
     }
@@ -91,11 +98,39 @@ extension ViewController: UITextFieldDelegate {
 }
 
 extension ViewController {
-    //Mark: Helpers
+    //MARK: Helpers
     func showImagePicker(for sourceType: UIImagePickerControllerSourceType) {
         imagePicker.sourceType = sourceType
         present(imagePicker, animated: true, completion: nil)
     }
     
+    func getKeyboardHeight(notification: Notification) -> CGFloat{
+        let userInfo = notification.userInfo
+        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
+        return keyboardSize.cgRectValue.height
+    }
+    
+    
+    @objc func keyboardWillShow(notification: Notification) {
+        self.view.frame.origin.y -= getKeyboardHeight(notification: notification)
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        self.view.frame.origin.y = 0
+    }
+    
+    //MARK: KeyboardWillShow
+    func subscribeToKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    func unsubscribeFromKeyboardNotification() {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    //MARK: KeyboardWillHide
 }
 
