@@ -44,7 +44,7 @@ class ActivityViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        camera.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
+        camera.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         subscribeToKeyboardNotifications()
     }
     
@@ -61,6 +61,16 @@ class ActivityViewController: UIViewController {
     
     @IBAction func pickAnImageFromLibray(_ sender: Any) {
         showImagePicker(for: .photoLibrary)
+    }
+    
+    @IBAction func shareButtonOnTap(_ sender: Any) {
+        Util.showActivityView(for: [generateMemedImage()], in: self, onCompletion: {
+            self.save()
+        })
+    }
+    
+    @IBAction func cancelButtonOnTap(_ sender: Any) {
+        
     }
 }
 

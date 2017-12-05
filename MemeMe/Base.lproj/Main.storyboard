@@ -24,9 +24,17 @@
                                     <constraint firstAttribute="height" constant="44" id="9CG-mk-XPq"/>
                                 </constraints>
                                 <items>
-                                    <barButtonItem title="Item" id="vai-Ie-zKD"/>
-                                    <barButtonItem title="Item" id="NPN-Ps-v8r"/>
-                                    <barButtonItem title="Item" id="Ud2-fK-3Mn"/>
+                                    <barButtonItem systemItem="action" id="vai-Ie-zKD">
+                                        <connections>
+                                            <action selector="shareButtonOnTap:" destination="9w8-jw-jvN" id="l6Q-4f-2ne"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem systemItem="flexibleSpace" id="NPN-Ps-v8r"/>
+                                    <barButtonItem systemItem="cancel" id="Ud2-fK-3Mn">
+                                        <connections>
+                                            <action selector="cancelButtonOnTap:" destination="9w8-jw-jvN" id="9sr-8g-Dc3"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7OT-qi-Sil">
@@ -50,16 +58,19 @@
                                     <constraint firstAttribute="height" constant="44" id="2df-B2-5Py"/>
                                 </constraints>
                                 <items>
-                                    <barButtonItem title="Pick" id="m8p-ds-ekB">
-                                        <connections>
-                                            <action selector="pickAnImageFromLibray:" destination="9w8-jw-jvN" id="tzi-ad-MMu"/>
-                                        </connections>
-                                    </barButtonItem>
+                                    <barButtonItem systemItem="flexibleSpace" id="Stl-Y0-Gai"/>
                                     <barButtonItem systemItem="camera" id="tjr-oP-YTL">
                                         <connections>
                                             <action selector="pickAnImageFromCamera:" destination="9w8-jw-jvN" id="QZx-vH-jHh"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem systemItem="flexibleSpace" id="off-75-QvG"/>
+                                    <barButtonItem title="Album" id="m8p-ds-ekB">
+                                        <connections>
+                                            <action selector="pickAnImageFromLibray:" destination="9w8-jw-jvN" id="tzi-ad-MMu"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem systemItem="flexibleSpace" id="ZZd-l3-fKI"/>
                                 </items>
                             </toolbar>
                         </subviews>
