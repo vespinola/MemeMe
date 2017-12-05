@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ActivityViewController.swift
 //  MemeMe
 //
 //  Created by administrator on 12/4/17.
@@ -8,31 +8,33 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ActivityViewController: UIViewController {
     @IBOutlet weak var imagePickerView: UIImageView!
     @IBOutlet weak var camera: UIBarButtonItem!
     @IBOutlet weak var topTextfield: UITextField!
     @IBOutlet weak var bottomTextfield: UITextField!
+    @IBOutlet weak var toolbar: UIToolbar!
     
     let imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
         imagePicker.delegate = self
         imagePickerView.contentMode = .scaleAspectFit
         imagePickerView.backgroundColor = UIColor.black
         
         let memeTextAttributes: [String : Any] = [
-            NSAttributedStringKey.strokeColor.rawValue: UIColor.black/* TODO: fill in appropriate UIColor */,
-            NSAttributedStringKey.foregroundColor.rawValue: UIColor.white/* TODO: fill in appropriate UIColor */,
+            NSAttributedStringKey.strokeColor.rawValue: UIColor.black,
+            NSAttributedStringKey.foregroundColor.rawValue: UIColor.white,
             NSAttributedStringKey.font.rawValue: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-            NSAttributedStringKey.strokeWidth.rawValue: -3/* TODO: fill in appropriate Float */
+            NSAttributedStringKey.strokeWidth.rawValue: -3
         ]
         
         [topTextfield, bottomTextfield].forEach {
             $0?.defaultTextAttributes = memeTextAttributes
             $0?.textAlignment = .center
+            $0?.adjustsFontSizeToFitWidth = true
             $0?.delegate = self
         }
         
@@ -42,7 +44,7 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        camera.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
+//        camera.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         subscribeToKeyboardNotifications()
     }
     
@@ -53,7 +55,10 @@ class ViewController: UIViewController {
     }
     
     @IBAction func pickAnImageFromCamera(_ sender: Any) {
-        showImagePicker(for: .camera)
+//        showImagePicker(for: .camera)
+        Util.showActivityView(for: [generateMemedImage()], in: self) {
+            self.save()
+        }
     }
     
     @IBAction func pickAnImageFromLibray(_ sender: Any) {
@@ -61,7 +66,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension ActivityViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
@@ -76,7 +81,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
     }
 }
 
-extension ViewController: UITextFieldDelegate {
+extension ActivityViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return false
@@ -97,7 +102,7 @@ extension ViewController: UITextFieldDelegate {
     }
 }
 
-extension ViewController {
+extension ActivityViewController {
     //MARK: Helpers
     func showImagePicker(for sourceType: UIImagePickerControllerSourceType) {
         imagePicker.sourceType = sourceType
@@ -119,7 +124,7 @@ extension ViewController {
         self.view.frame.origin.y = 0
     }
     
-    //MARK: KeyboardWillShow
+    //MARK: Keyboard Observers
     func subscribeToKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
@@ -131,6 +136,32 @@ extension ViewController {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    //MARK: KeyboardWillHide
+    //MARK: Meme Generator
+    func generateMemedImage() -> UIImage {
+        // TODO: Hide toolbar and navbar
+        toolbar.isHidden = true
+        
+        // Render view to an image
+        UIGraphicsBeginImageContext(self.view.frame.size)
+        view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
+        let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        // TODO: Show toolbar and navbar
+        toolbar.isHidden = false
+        
+        return memedImage
+    }
+    
+    //MARK: Meme Saver
+    func save(){
+        let memedImage = generateMemedImage()
+        let meme = Meme(top: topTextfield.text!, bottom: bottomTextfield.text!, originalImage: imagePickerView.image!, memedImage: memedImage)
+    }
+    
 }
+
+
+
+
 
