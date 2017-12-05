@@ -55,10 +55,8 @@ class ActivityViewController: UIViewController {
     }
     
     @IBAction func pickAnImageFromCamera(_ sender: Any) {
-//        showImagePicker(for: .camera)
-        Util.showActivityView(for: [generateMemedImage()], in: self) {
-            self.save()
-        }
+        showImagePicker(for: .camera)
+
     }
     
     @IBAction func pickAnImageFromLibray(_ sender: Any) {
@@ -156,7 +154,7 @@ extension ActivityViewController {
     //MARK: Meme Saver
     func save(){
         let memedImage = generateMemedImage()
-        let meme = Meme(top: topTextfield.text!, bottom: bottomTextfield.text!, originalImage: imagePickerView.image!, memedImage: memedImage)
+//        let meme = Meme(top: topTextfield.text!, bottom: bottomTextfield.text!, originalImage: imagePickerView.image!, memedImage: memedImage)
     }
     
 }
