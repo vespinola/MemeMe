@@ -1,5 +1,5 @@
 //
-//  ActivityViewController.swift
+//  MemeGeneratorViewController.swift
 //  MemeMe
 //
 //  Created by administrator on 12/4/17.
@@ -8,7 +8,8 @@
 
 import UIKit
 
-class ActivityViewController: UIViewController {
+class MemeGeneratorViewController: UIViewController {
+    @IBOutlet weak var shareButton: UIBarButtonItem!
     @IBOutlet weak var imagePickerView: UIImageView!
     @IBOutlet weak var camera: UIBarButtonItem!
     @IBOutlet weak var topTextfield: UITextField!
@@ -16,6 +17,7 @@ class ActivityViewController: UIViewController {
     @IBOutlet weak var topToolbar: UIToolbar!
     @IBOutlet weak var bottomToolbar: UIToolbar!
     
+    var memedImage: UIImage!
     var bottomTextFieldIsFocused = false
     
     let imagePicker = UIImagePickerController()
@@ -23,7 +25,10 @@ class ActivityViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Set imagePicker delegate
         imagePicker.delegate = self
+        
+        //Setup ImagePickerView content with Aspect Fit
         imagePickerView.contentMode = .scaleAspectFit
         imagePickerView.backgroundColor = UIColor.black
         
@@ -47,10 +52,14 @@ class ActivityViewController: UIViewController {
         
         topTextfield.text = Constants.meme.topText
         bottomTextfield.text = Constants.meme.bottomText
+        
+        //Disable share button when the app is launched
+        shareButton.isEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        //verify camera
         camera.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         subscribeToKeyboardNotifications()
     }
@@ -69,14 +78,15 @@ class ActivityViewController: UIViewController {
     }
     
     @IBAction func shareButtonOnTap(_ sender: Any) {
-        Util.showActivityView(for: [generateMemedImage()], in: self, onCompletion: {
+        memedImage = generateMemedImage()
+        
+        Util.showActivityView(for: [memedImage], in: self, onCompletion: {
             self.save()
         })
     }
     
     @IBAction func cancelButtonOnTap(_ sender: Any) {
         Util.runInMainQueue {
-            
             [self.topTextfield, self.bottomTextfield].forEach {
                 $0?.resignFirstResponder()
             }
@@ -84,11 +94,12 @@ class ActivityViewController: UIViewController {
             self.imagePickerView.image = nil
             self.topTextfield.text = Constants.meme.topText
             self.bottomTextfield.text = Constants.meme.bottomText
+            self.shareButton.isEnabled = false
         }
     }
 }
 
-extension ActivityViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension MemeGeneratorViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
@@ -97,13 +108,14 @@ extension ActivityViewController: UIImagePickerControllerDelegate, UINavigationC
         
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             imagePickerView.image = image
+            shareButton.isEnabled = true
         }
         
         dismiss(animated: true, completion: nil)
     }
 }
 
-extension ActivityViewController: UITextFieldDelegate {
+extension MemeGeneratorViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return false
@@ -124,9 +136,14 @@ extension ActivityViewController: UITextFieldDelegate {
             textField.text =  Constants.meme.bottomText
         }
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        textField.text = NSString(string: textField.text!).replacingCharacters(in: range, with: string).uppercased()
+        return false
+    }
 }
 
-extension ActivityViewController {
+extension MemeGeneratorViewController {
     //MARK: Helpers
     func showImagePicker(for sourceType: UIImagePickerControllerSourceType) {
         imagePicker.sourceType = sourceType
@@ -141,6 +158,7 @@ extension ActivityViewController {
     
     
     @objc func keyboardWillShow(notification: Notification) {
+        //only the bottom textfield needs that keyboard changes its origin y
         guard bottomTextFieldIsFocused else { return }
         self.view.frame.origin.y -= getKeyboardHeight(notification: notification)
     }
@@ -163,7 +181,8 @@ extension ActivityViewController {
     
     //MARK: Meme Generator
     func generateMemedImage() -> UIImage {
-        bottomToolbar.isHidden = true
+    
+        hideToolbars(true)
         
         // Render view to an image
         UIGraphicsBeginImageContext(self.view.frame.size)
@@ -171,15 +190,20 @@ extension ActivityViewController {
         let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
-        bottomToolbar.isHidden = false
+        hideToolbars(false)
         
         return memedImage
+    }
+
+    func hideToolbars(_ value: Bool) {
+        [bottomToolbar, topToolbar].forEach {
+            $0?.isHidden = value
+        }
     }
     
     //MARK: Meme Saver
     func save(){
-        let memedImage = generateMemedImage()
-//        let meme = Meme(top: topTextfield.text!, bottom: bottomTextfield.text!, originalImage: imagePickerView.image!, memedImage: memedImage)
+        let meme = Meme(top: topTextfield.text!, bottom: bottomTextfield.text!, originalImage: imagePickerView.image!, memedImage: memedImage)
     }
     
 }
