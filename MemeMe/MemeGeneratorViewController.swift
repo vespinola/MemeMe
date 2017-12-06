@@ -203,7 +203,7 @@ extension MemeGeneratorViewController {
     
     //MARK: Meme Saver
     func save(){
-        let meme = Meme(top: topTextfield.text!, bottom: bottomTextfield.text!, originalImage: imagePickerView.image!, memedImage: memedImage)
+        let meme = Meme(topText: topTextfield.text!, bottomText: bottomTextfield.text!, originalImage: imagePickerView.image!, memedImage: memedImage)
     }
     
 }
