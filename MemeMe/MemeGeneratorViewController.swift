@@ -25,6 +25,10 @@ class MemeGeneratorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Hide navigation Bar
+        
+        navigationController?.setNavigationBarHidden(true, animated: true)
+        
         //Set imagePicker delegate
         imagePicker.delegate = self
         
@@ -86,16 +90,7 @@ class MemeGeneratorViewController: UIViewController {
     }
     
     @IBAction func cancelButtonOnTap(_ sender: Any) {
-        Util.runInMainQueue {
-            [self.topTextfield, self.bottomTextfield].forEach {
-                $0?.resignFirstResponder()
-            }
-            
-            self.imagePickerView.image = nil
-            self.topTextfield.text = Constants.meme.topText
-            self.bottomTextfield.text = Constants.meme.bottomText
-            self.shareButton.isEnabled = false
-        }
+        dismiss(animated: true, completion: nil)
     }
 }
 
