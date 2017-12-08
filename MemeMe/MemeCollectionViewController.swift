@@ -13,8 +13,6 @@ private let reuseIdentifier = "MemeCollectionViewCell"
 class MemeCollectionViewController: UICollectionViewController {
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
-    let applicationDelegate = UIApplication.shared.delegate as! AppDelegate
-    
     var memes: [Meme] = []
     
     override func viewDidLoad() {
@@ -22,7 +20,7 @@ class MemeCollectionViewController: UICollectionViewController {
 
         title = "Sent Memes View"
         
-        memes = applicationDelegate.memes
+        memes = Session.sharedInstance.memes
         
         let space: CGFloat = 3.0
         let dimension = (self.view.frame.size.width - (2 * space)) / 3.0
@@ -35,21 +33,19 @@ class MemeCollectionViewController: UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        guard memes.count != applicationDelegate.memes.count else { return }
-        memes = applicationDelegate.memes
+        guard memes.count != Session.sharedInstance.memes.count else { return }
+        memes = Session.sharedInstance.memes
         collectionView?.reloadData()
     }
 
     // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
         return memes.count
     }
 

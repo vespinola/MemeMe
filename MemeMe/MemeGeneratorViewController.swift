@@ -201,9 +201,7 @@ extension MemeGeneratorViewController {
         let meme = Meme(topText: topTextfield.text!, bottomText: bottomTextfield.text!, originalImage: imagePickerView.image!, memedImage: memedImage)
         
         // Add it to the memes array in the Application Delegate
-        let object = UIApplication.shared.delegate
-        let appDelegate = object as! AppDelegate
-        appDelegate.memes.append(meme)
+        Session.sharedInstance.memes.append(meme)
     }
     
 }

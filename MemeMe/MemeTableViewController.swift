@@ -10,7 +10,6 @@ import UIKit
 
 class MemeTableViewController: UITableViewController {
     
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var memes: [Meme] = []
 
     override func viewDidLoad() {
@@ -18,14 +17,14 @@ class MemeTableViewController: UITableViewController {
 
         title = "Sent Memes View"
     
-        memes = appDelegate.memes
+        memes = Session.sharedInstance.memes
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        guard memes.count != appDelegate.memes.count else { return }
-        memes = appDelegate.memes
+        guard memes.count != Session.sharedInstance.memes.count else { return }
+        memes = Session.sharedInstance.memes
         tableView.reloadData()
     }
 
