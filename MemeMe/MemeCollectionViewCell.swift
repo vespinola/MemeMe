@@ -13,7 +13,6 @@ class MemeCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         memeImageView.contentMode = .scaleAspectFit
     }
     
