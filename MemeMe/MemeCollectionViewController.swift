@@ -8,10 +8,13 @@
 
 import UIKit
 
-private let reuseIdentifier = "Cell"
+private let reuseIdentifier = "MemeCollectionViewCell"
 
 class MemeCollectionViewController: UICollectionViewController {
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    
+    let applicationDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     var memes: [Meme] = []
     
     override func viewDidLoad() {
@@ -21,11 +24,9 @@ class MemeCollectionViewController: UICollectionViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+//        self.collectionView!.register(MemeCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
         // Do any additional setup after loading the view.
-        
-        let applicationDelegate = UIApplication.shared.delegate as! AppDelegate
         memes = applicationDelegate.memes
         
         let space: CGFloat = 3.0
@@ -34,6 +35,14 @@ class MemeCollectionViewController: UICollectionViewController {
         flowLayout.minimumInteritemSpacing = space
         flowLayout.minimumLineSpacing = space
         flowLayout.itemSize = CGSize(width: dimension, height: dimension)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        guard memes.count != applicationDelegate.memes.count else { return }
+        memes = applicationDelegate.memes
+        collectionView?.reloadData()
     }
 
     /*
@@ -60,10 +69,8 @@ class MemeCollectionViewController: UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-    
-        // Configure the cell
-    
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MemeCollectionViewCell
+        cell.memeImageView.image = memes[indexPath.row].memedImage
         return cell
     }
     

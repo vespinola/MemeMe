@@ -9,6 +9,8 @@
 import UIKit
 
 class MemeTableViewController: UITableViewController {
+    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var memes: [Meme] = []
 
     override func viewDidLoad() {
@@ -19,14 +21,15 @@ class MemeTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
         memes = appDelegate.memes
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        guard memes.count != appDelegate.memes.count else { return }
+        memes = appDelegate.memes
         tableView.reloadData()
     }
 

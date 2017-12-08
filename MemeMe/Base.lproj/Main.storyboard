@@ -132,12 +132,17 @@
                                     <rect key="frame" x="0.0" y="0.0" width="169" height="121"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CaZ-8r-Zyp">
-                                            <rect key="frame" x="0.0" y="0.0" width="182" height="137"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CaZ-8r-Zyp">
+                                            <rect key="frame" x="0.0" y="0.0" width="169" height="121"/>
                                         </imageView>
                                     </subviews>
                                 </view>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="CaZ-8r-Zyp" secondAttribute="bottom" id="87I-Nm-WmN"/>
+                                    <constraint firstItem="CaZ-8r-Zyp" firstAttribute="top" secondItem="mZ2-7v-OHu" secondAttribute="top" id="B8K-iM-FFh"/>
+                                    <constraint firstItem="CaZ-8r-Zyp" firstAttribute="leading" secondItem="mZ2-7v-OHu" secondAttribute="leading" id="U1l-14-k5J"/>
+                                    <constraint firstAttribute="trailing" secondItem="CaZ-8r-Zyp" secondAttribute="trailing" id="n1m-JW-rjG"/>
+                                </constraints>
                                 <connections>
                                     <outlet property="memeImageView" destination="CaZ-8r-Zyp" id="0OT-a2-2GN"/>
                                 </connections>
@@ -251,7 +256,7 @@
         <scene sceneID="aoV-bl-uqh">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5iV-Qx-xoY" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="table" id="A6z-ul-NFQ"/>
+                    <tabBarItem key="tabBarItem" title="" image="collection" id="A6z-ul-NFQ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="IRJ-ax-IQu">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -270,7 +275,7 @@
         <scene sceneID="m9l-Fz-kAr">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jM0-tH-vnu" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="collection" id="zge-Wf-6Ng"/>
+                    <tabBarItem key="tabBarItem" title="" image="table" id="zge-Wf-6Ng"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="CnG-6w-sZO">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
